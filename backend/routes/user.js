@@ -3,6 +3,7 @@ const router = express.Router();
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
 const env = require("../config");
+const bcrypt = require('bcrypt');
 
 const {secret} = env;
 
@@ -29,12 +30,9 @@ router.post("/signup", async(req,res)=>{
         const { success } = signupSchema.safeParse(req.body);
 
         if (!success) {
-            return res.status(400).json({ message: "Invalid input format" });
+            return res.status(400).json({ error: parsedInput.error.errors });
         }
 
-        if(!email || !password || !firstName || !lastName){
-            return res.status(400).json({error:"All fileds are required"});
-        }
 
         // validate email format
         const emailregex = /^\S+@\S+\.\S+$/;
@@ -49,9 +47,10 @@ router.post("/signup", async(req,res)=>{
         }
 
         /* Register user */
+        const hashedPassword = await bcrypt.hash(password, 10)
         const user = await User.create({
             email,
-            password,
+            password : hashedPassword,
             firstName,
             lastName
         });
@@ -72,14 +71,17 @@ router.post("/signup", async(req,res)=>{
 
 router.post("/signin", async(req,res)=>{
     const { email, password } = req.body;
-    const isValidUser = await User.findOne({ 
-        email: req.body.email,
-        password: req.body.password,
-    });
-    if(!isValidUser){
-        return res.status(400).json({error: "Not a valid user sign up first "});
+    const user = await User.findOne({ email });
+    if(!user){
+        return res.status(400).json({error: "User not found. Please sign up first."});
     }
 
+    /* compare the provided password with the sored hashed password */
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if(!isPasswordValid){
+        return res.status(400).json({error: "Invalid email or password."});
+    }
+    /* Generate jwt token */
     const token = jwt.sign({email}, secret, {expiresIn: '1h' });
     res.json(
         {
