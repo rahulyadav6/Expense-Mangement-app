@@ -24,6 +24,8 @@ const signupSchema = zod.object({
     lastName: zod.string().min(1, "Last name is required")
 })
 
+/* route to signup  when user wants to create new account */
+
 router.post("/signup", async(req,res)=>{
     try{
         const { email, password, firstName, lastName} = req.body;
@@ -70,6 +72,7 @@ router.post("/signup", async(req,res)=>{
     }
 })
 
+/* route to signin */
 router.post("/signin", async(req,res)=>{
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -91,7 +94,7 @@ router.post("/signin", async(req,res)=>{
         });
 });
 
-
+/* route to add expense */
 router.post('/addexpense', authMiddleware, async(req,res)=>{
     try{
         const { amount, category, description } = req.body;
@@ -113,5 +116,18 @@ router.post('/addexpense', authMiddleware, async(req,res)=>{
     }
 })
 
+/* route to extract all the expenses of a particular user */
+router.get("/expenses", authMiddleware, async(req,res)=>{
+    try{
+        const userId = req.user.id;
+        
+        const expenses = await Expense.find({ userId }, "-_id amount category description");
+    
+        res.json({ expenses });
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error:"Internal server error"});
+    }
+})
 
 module.exports = router;
