@@ -8,7 +8,8 @@ const bcrypt = require('bcrypt');
 const {secret} = env;
 
 
-const { User } = require("../db");
+const { User, Expense } = require("../db");
+const { authMiddleware } = require("../middleware");
 
 router.get("/",(req,res)=>{
     res.json({
@@ -54,7 +55,7 @@ router.post("/signup", async(req,res)=>{
             firstName,
             lastName
         });
-        const token = jwt.sign({email}, secret, {expiresIn: '1h' });    
+        const token = jwt.sign({id: user._id,  email: user.email }, secret, {expiresIn: '1h' });    
         res.status(201).json(
             {
                 message: "User registered successfully", user,
@@ -82,13 +83,35 @@ router.post("/signin", async(req,res)=>{
         return res.status(400).json({error: "Invalid email or password."});
     }
     /* Generate jwt token */
-    const token = jwt.sign({email}, secret, {expiresIn: '1h' });
+    const token = jwt.sign({id: user._id,  email: user.email }, secret, {expiresIn: '1h' });    
     res.json(
         {
             msg:"Logged in successfully ",
             token: token
         });
 });
+
+
+router.post('/addexpense', authMiddleware, async(req,res)=>{
+    try{
+        const { amount, category, description } = req.body;
+
+        if(!amount || !category){
+            return res.status(400).json({error:"Amount and category are required "});
+        }
+        const userId = req.user.id
+        const newExpense = await Expense.create({
+            userId,
+            amount,
+            category,
+            description
+        });
+        res.status(201).json({message:"Expense added successfully", newExpense});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error:"Internal server error"});
+    }
+})
 
 
 module.exports = router;

@@ -27,4 +27,28 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User",userSchema);
 
-module.exports = {User};
+const expenseSchema = new mongoose.Schema({
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    amount:{
+        type: Number,
+        required: true
+    },
+    category:{
+        type: String,
+        required: true
+    },
+    descripton:{
+        type: String
+    },
+    date:{
+        type: Date,
+        default: Date.now
+    }
+})
+const Expense = mongoose.model("Expense", expenseSchema);
+
+module.exports = { User, Expense };
