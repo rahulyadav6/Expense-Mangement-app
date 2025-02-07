@@ -120,8 +120,12 @@ router.post('/addexpense', authMiddleware, async(req,res)=>{
 router.get("/expenses", authMiddleware, async(req,res)=>{
     try{
         const userId = req.user.id;
-        
-        const expenses = await Expense.find({ userId }, "-_id amount category description");
+         
+        const expenses = await Expense.find({ userId }).select("-_id amount category description");
+
+        if(!expenses.length){
+            return res.status(404).json({message:"No expense found for this user"});
+        }
     
         res.json({ expenses });
     }catch(err){
@@ -129,5 +133,12 @@ router.get("/expenses", authMiddleware, async(req,res)=>{
         res.status(500).json({error:"Internal server error"});
     }
 })
+
+/* route to delete an expense */
+router.delete('/deleteExpense', authMiddleware, async(req,res)=>{
+    
+})
+
+
 
 module.exports = router;
