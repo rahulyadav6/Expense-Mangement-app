@@ -135,9 +135,29 @@ router.get("/expenses", authMiddleware, async(req,res)=>{
 })
 
 /* route to delete an expense */
-router.delete('/deleteExpense', authMiddleware, async(req,res)=>{
-    
+router.delete('/expenses/:expenseId', authMiddleware, async(req,res)=>{
+    try{
+        const userId = req.user.id;
+        const { expenseId } = req.params;
+        
+        const expense = await Expense.findOne({_id: expenseId, userId});
+        if(!expense){
+            return res.status(404).json({ message: "Expense not found or unauthorized" });
+        }
+        await Expense.deleteOne({ _id: expenseId });
+        res.json({message: "Expense deleted successfully"});
+        
+        
+    }catch(err){
+        console.log("Error deleting expense", err);
+        res.status(500).json({ error: "Internal Server Error" });
+        
+    }
 })
+
+router.put('/expenses/:expenseId', authMiddleware, async(req,res)=>{
+
+} )
 
 
 
