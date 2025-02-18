@@ -1,8 +1,8 @@
 export function Signuppage(){
     return(
         <>
-        <div className="h-screen w-full bg-background">
-            <h1>This is a signup page </h1>
+        <div className="min-h-screen w-full flex justify-center items-center">
+            hi from sign up page
         </div>
         </>
     );

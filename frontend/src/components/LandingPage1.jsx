@@ -82,13 +82,7 @@ export function LandingPage() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contact" className="bg-gray-900 text-white py-8 text-center">
-        <p>&copy; 2025 Xpensa. All rights reserved.</p>
-        <div className="mt-4">
-          <a href="#" className="text-yellow-400 hover:text-yellow-500 mx-3">Privacy</a>
-          <a href="#" className="text-yellow-400 hover:text-yellow-500 mx-3">Terms of Service</a>
-        </div>
-      </footer>
+      
     </div>
   );
 }
