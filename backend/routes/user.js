@@ -20,20 +20,19 @@ router.get("/",(req,res)=>{
 const signupSchema = zod.object({
     email: zod.string().email("Invalid email format"),
     password: zod.string().min(6, "Password must be at least 6 characters"),
-    firstName: zod.string().min(1, "First name is required"),
-    lastName: zod.string().min(1, "Last name is required")
+    fullName: zod.string().min(1, "Name is required"),
 })
 
 /* route to signup  when user wants to create new account */
 
 router.post("/signup", async(req,res)=>{
     try{
-        const { email, password, firstName, lastName} = req.body;
+        const { email, password, fullName} = req.body;
 
         const { success } = signupSchema.safeParse(req.body);
 
         if (!success) {
-            return res.status(400).json({ error: parsedInput.error.errors });
+            return res.status(400).json({ error:"Invalid data" });
         }
 
 
@@ -54,8 +53,7 @@ router.post("/signup", async(req,res)=>{
         const user = await User.create({
             email,
             password : hashedPassword,
-            firstName,
-            lastName
+            fullName,
         });
         const token = jwt.sign({id: user._id,  email: user.email }, secret, {expiresIn: '1h' });    
         res.status(201).json(

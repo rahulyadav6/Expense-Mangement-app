@@ -1,7 +1,7 @@
 export function Footer(){
     return(
         <>
-        <section id="features" className="py-16 bg-white ">
+        <section id="features" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">
             Why Choose <span className="text-blue-500">Xpensa</span>?

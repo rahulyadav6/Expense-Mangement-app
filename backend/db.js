@@ -15,14 +15,10 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         minlength: [6, "Password must be at least 6 characters"]
     },
-    firstName:{
+    fullName:{
         type:String,
         required: true
     },
-    lastName:{
-        type:String,
-        required: true
-    }
 })
 
 const User = mongoose.model("User",userSchema);
