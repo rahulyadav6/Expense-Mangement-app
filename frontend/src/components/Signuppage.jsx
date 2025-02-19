@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { User, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom"
+
 export function Signuppage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -43,6 +45,7 @@ export function Signuppage() {
           headers: {"Content-Type": "application/json"},
         });
         alert("Signup successful!");
+        <Link to={"/singin"}/>
         setFormData({ name: "", email: "", password: "", confirmPassword: "" });
       }catch(err){
         setErrors({ apiError: err.response?.data?.message || "Signup failed!" });
@@ -154,9 +157,9 @@ export function Signuppage() {
 
           <p className="mt-8 text-center text-gray-600">
             Already have an account?{' '}
-            <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold">
+            <Link to="/signin" className="text-blue-600 hover:text-blue-700 font-semibold">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
