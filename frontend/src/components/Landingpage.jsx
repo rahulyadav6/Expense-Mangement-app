@@ -1,29 +1,74 @@
-import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { Link } from 'react-router-dom';
 
-export function Landingpage(){
-    return(
-        <section id="home" className="h-screen bg-gradient-to-r from-blue-500 to-green-500 text-white flex items-center justify-center text-center px-4 pt-20">
-        <motion.div className="max-w-3xl"
-            initial = {{x: -500, opacity: 0}}
-            animate={{x:0, opacity:1}}
-            transition={{duration:0.8, ease:"easeOut"}}
-        >
-          <motion.h1 className="text-5xl font-bold mb-4">
-            Welcome to <span className="text-yellow-300">Xpensa</span>
-          </motion.h1>
-          <p className="text-xl mb-6">
-            Simplify your finances with smart expense tracking. Take control of your spending today!
+const LandingPage = () => {
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <main className="max-w-7xl mx-auto px-4 py-20">
+        <div className="text-center mb-20">
+          <h1 className="text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+              Take Control
+            </span>
+            <br />
+            <span className="text-gray-900 dark:text-white">of Your Finances</span>
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">
+            Track expenses, manage budgets, and achieve your financial goals with our powerful and intuitive platform.
           </p>
-          <Link to="/signup">
-          <motion.button className="bg-yellow-400 text-black px-6 py-3 rounded-full text-lg hover:bg-yellow-500 transition-all"
-          initial = {{ scale: 0 }}
-          animate= {{scale: 1}}
-          >
-            Get Started
-          </motion.button>
-          </Link>
-        </motion.div>
-      </section>
-    );
-}
+          <div className="flex gap-6 justify-center mb-16">
+          <Link
+              to="/signup"
+              className="px-8 py-4 rounded-lg bg-gradient-to-r from-blue-600 to-green-600 text-white font-medium transition-all transform hover:scale-105 hover:shadow-lg"
+            >
+              Start For Free →
+            </Link> 
+            <button className="px-8 py-4 rounded-lg border-2 border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all">
+              Watch Demo
+            </button>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-6">
+              <span className="text-2xl">📊</span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Smart Tracking
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Automatically categorize and track your expenses with our intelligent system
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <div className="h-12 w-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-6">
+              <span className="text-2xl">📱</span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Cross-Platform
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Access your finances seamlessly across all your devices
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-6">
+              <span className="text-2xl">🔒</span>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Bank-Grade Security
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              Your data is protected with state-of-the-art encryption and security measures
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default LandingPage;

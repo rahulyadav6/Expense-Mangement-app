@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
-export function Layout(){
-    return(
-        <div className="h-screen bg-gradient-to-r from-blue-500 to-green-500">
+export function Layout() {
+    return (
+        <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-200">
             <Navbar />
-            <div>
-                <Outlet/>
-            </div>
-            <Footer/>
+            <main className="flex-grow pt-16">
+                <Outlet />
+            </main>
+            <Footer />
         </div>
     );
 }
