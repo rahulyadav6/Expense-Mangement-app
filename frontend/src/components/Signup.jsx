@@ -29,9 +29,9 @@ const Signup = () => {
       const response = await axios.post(
         "http://localhost:3000/api/v1/user/signup",
         {
-          fullName: formData.fullName,
           email: formData.email,
           password: formData.password,
+          fullName: formData.fullName,
         }
       );
       localStorage.setItem("token", response.data.token);
