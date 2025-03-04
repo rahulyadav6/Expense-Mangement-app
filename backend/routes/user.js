@@ -23,6 +23,7 @@ const signupSchema = zod.object({
     fullName: zod.string().min(1, "Name is required"),
 })
 
+
 /* route to signup  when user wants to create new account */
 
 router.post("/signup", async(req,res)=>{
@@ -41,7 +42,7 @@ router.post("/signup", async(req,res)=>{
         if(!emailregex.test(email)){
             return res.status(400).json({error:"invalid email format"});
         }
-
+        
         /* check if user already exists */
         const existingUser = await User.findOne({email});
         if(existingUser){
@@ -61,8 +62,8 @@ router.post("/signup", async(req,res)=>{
                 message: "User registered successfully", user,
                 token,token
             });
-    }catch(err){
-        console.error(err);
+        }catch(err){
+            console.error(err);
         if(err.code === 11000){
             return res.status(400).json({error: "Email already in use"});
         }
@@ -77,7 +78,7 @@ router.post("/signin", async(req,res)=>{
     if(!user){
         return res.status(400).json({error: "User not found. Please sign up first."});
     }
-
+    
     /* compare the provided password with the sored hashed password */
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if(!isPasswordValid){
@@ -90,13 +91,17 @@ router.post("/signin", async(req,res)=>{
             msg:"Logged in successfully ",
             token: token
         });
-});
-
-/* route to add expense */
+    });
+router.get("/me", authMiddleware, (req,res) => {
+    res.json({
+        email: req.user.email
+    })
+})
+    /* route to add expense */
 router.post('/addexpense', authMiddleware, async(req,res)=>{
     try{
         const { amount, category, description } = req.body;
-
+        
         if(!amount || !category){
             return res.status(400).json({error:"Amount and category are required "});
         }
