@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Signin = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +21,7 @@ const Signin = () => {
         formData
       );
       localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      window.location = "/dashboard"
     } catch (err) {
       setError(
         err.response?.data?.error || "Failed to sign in. Please try again"
@@ -31,6 +30,12 @@ const Signin = () => {
       setLoading(false);
     }
   };
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      localStorage.setItem("token","");
+    }
+  })
 
   const handleChange = (e) => {
     setFormData({
