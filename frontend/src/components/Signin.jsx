@@ -35,7 +35,7 @@ const Signin = () => {
     if(token){
       localStorage.setItem("token","");
     }
-  })
+  },[])
 
   const handleChange = (e) => {
     setFormData({

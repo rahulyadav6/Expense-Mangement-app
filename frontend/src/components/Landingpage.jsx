@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const LandingPage = () => {
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 c">
       <main className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-64">
           <h1 className="text-6xl font-bold mb-6 mt-10">
